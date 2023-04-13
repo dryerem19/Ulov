@@ -1,0 +1,144 @@
+﻿<Window x:Class="Ulov.CatalogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Ulov"
+        mc:Ignorable="d"
+        Title="ООО 'УЛОВ'"
+        MinWidth="800"
+        MinHeight="600" FontFamily="Comic Sans MS" FontSize="14">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="70*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              Background="#FF76E351">
+            <Image Source="Resources/logo.png"
+                   MaxHeight="50"
+                   HorizontalAlignment="Left"
+                   Margin="20, 0, 0, 0" />
+            <StackPanel Orientation="Vertical"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+                <Label Foreground="White" FontSize="18">
+                    <Label.Content>
+                        ООО "Улов"
+                    </Label.Content>
+                </Label>
+                <Label />
+                <Label Content="Каталог" Foreground="White" HorizontalAlignment="Center" FontSize="16"/>
+            </StackPanel>
+            <Button Content="Выход"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    MinWidth="200"
+                    MinHeight="50"
+                    Margin="0, 0, 20, 0"
+                    Click="OnExitButtonClick"
+                    FontSize="18" />
+        </Grid>
+        <Grid Grid.Row="1">
+            <TextBlock VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       Margin="5">
+            <Label Name="CurrentCountRows"
+                   Content="0" />
+            <Label Content="Записей из" />
+            <Label Name="CommonCountRows"
+                   Content="100" />
+            </TextBlock>
+            <UniformGrid Columns="2"
+                         HorizontalAlignment="Center">
+                <Label Content="Поиск:"
+                       VerticalAlignment="Center" />
+                <TextBox VerticalAlignment="Center"
+                         TextChanged="OnSearchTextBoxChanged" />
+                <Label Content="Сортировка по стоимости:"
+                       VerticalAlignment="Center" />
+                <ComboBox Name="SortByCostComboBox"
+                          SelectedIndex="0"
+                          VerticalAlignment="Center"
+                          SelectionChanged="OnCostComboBoxSelectionChanged">
+                    <ComboBoxItem Content="По возрастанию" />
+                    <ComboBoxItem Content="По убыванию" />
+                </ComboBox>
+                <Label Content="Фильтрация по размерку скидки:"
+                       VerticalAlignment="Center" />
+                <ComboBox Name="SortByDiscountComboBox"
+                          SelectedIndex="0"
+                          VerticalAlignment="Center"
+                          SelectionChanged="OnDiscountComboBoxSelectionChanged">
+                    <ComboBoxItem Content="Все диапазоны" />
+                    <ComboBoxItem Content="0-9,99%" />
+                    <ComboBoxItem Content="10-14,99%" />
+                    <ComboBoxItem Content="15% и более" />
+                </ComboBox>
+            </UniformGrid>
+        </Grid>
+        <ListView Grid.Row="2"
+                  Name="ProductListView">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment"
+                            Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Black"
+                            BorderThickness="1"
+                            Margin="10"
+                            Background="{Binding DiscountBackground}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="90*" />
+                                <ColumnDefinition Width="10*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                                    BorderBrush="Black"
+                                    BorderThickness="1"
+                                    Margin="10">
+                                <Image Source="{Binding Image, TargetNullValue=Resources/picture.png}" />
+                            </Border>
+                            <Border Grid.Column="1"
+                                    BorderBrush="Black"
+                                    BorderThickness="1"
+                                    Margin="10">
+                                <UniformGrid Rows="4"
+                                             Columns="2">
+                                    <Label Content="Наименование товара:"
+                                           FontWeight="Bold" />
+                                    <TextBlock Text="{Binding Name}" />
+                                    <Label Content="Описание товара" />
+                                    <TextBlock Text="{Binding Description}" />
+                                    <Label Content="Производитель:" />
+                                    <TextBlock Text="{Binding Manufacturer.Name}" />
+                                    <Label Content="Цена:" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Cost}" />
+                                        <Label />
+                                        <TextBlock Text="{Binding DiscountCost}"
+                                                   TextDecorations="Strikethrough" />
+                                    </StackPanel>
+                                </UniformGrid>
+                            </Border>
+                            <Border Grid.Column="2"
+                                    BorderBrush="Black"
+                                    BorderThickness="1"
+                                    Margin="10">
+                                <Label Content="{Binding CurrentDiscount}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center" />
+                            </Border>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Window>
